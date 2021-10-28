@@ -1,11 +1,13 @@
 package by.itacademy.javaenterprise.lepnikau.app;
 
-import by.itacademy.javaenterprise.lepnikau.app.entity.Mark;
-import by.itacademy.javaenterprise.lepnikau.app.dao.DAO;
 import by.itacademy.javaenterprise.lepnikau.app.dao.MarkDAO;
+import by.itacademy.javaenterprise.lepnikau.app.dao.StudentDAO;
+import by.itacademy.javaenterprise.lepnikau.app.dao.implement.StudentDAOImpl;
+import by.itacademy.javaenterprise.lepnikau.app.entity.Mark;
+import by.itacademy.javaenterprise.lepnikau.app.dao.implement.MarkDAOImpl;
+import by.itacademy.javaenterprise.lepnikau.app.entity.Parent;
+import by.itacademy.javaenterprise.lepnikau.app.entity.Student;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 public class App {
@@ -17,15 +19,29 @@ public class App {
         mark.setSubjectId(10);
         mark.setDate(Date.valueOf(LocalDate.now()));*/
 
-        DAO<Mark> dao = new MarkDAO();
+        StudentDAO<Student, Parent> studentDAO = new StudentDAOImpl();
+
+        Student student = new Student();
+        student.setLastName("Pupkin");
+        student.setFirstName("Vasia");
+        student.setPatronymic("Alecsandrovich");
+        student.setClassId(1);
+
+        Parent parent = new Parent();
+        parent.setLastName("Pupkin");
+        parent.setFirstName("Alecsander");
+        parent.setPatronymic("Ivanovich");
+
+        System.out.println(studentDAO.saveStudentAndParent(student, parent));
+
+        //MarkDAO<Mark> dao = new MarkDAOImpl();
 
         /*System.out.println(dao.get(23));*/
 
-        getAllPageByPageTest(5, 0);
+        //getAllPageByPageTest(dao, 5, 0);
     }
 
-    private static void getAllPageByPageTest(int limit, int offset) {
-        DAO<Mark> dao = new MarkDAO();
+    private static void getAllPageByPageTest(MarkDAO<Mark> dao, int limit, int offset) {
 
         while (true) {
             List<Mark> allPageByPage = dao.getAllPageByPage(limit, offset);

@@ -7,4 +7,6 @@ public class StudentSQLRequests {
             "SELECT * FROM `students` WHERE `id` = ?";
     public static final String SELECT_ALL =
             "SELECT * FROM `students` LIMIT ? OFFSET ?";
+    public static final String LAST_ID =
+            "SELECT id FROM `students` ORDER BY id DESC LIMIT 1";
 }

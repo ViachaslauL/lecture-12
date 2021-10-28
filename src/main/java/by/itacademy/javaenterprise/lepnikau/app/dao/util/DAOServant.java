@@ -1,4 +1,4 @@
-package by.itacademy.javaenterprise.lepnikau.app.dao;
+package by.itacademy.javaenterprise.lepnikau.app.dao.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +28,16 @@ public class DAOServant {
             } catch (SQLException e) {
                 log.error(e.toString());
             }
+        }
+    }
+
+    public static void rollbackConnection(Connection connection) {
+        try {
+            if (connection != null) {
+                connection.rollback();
+            }
+        } catch (SQLException e) {
+            log.error(e.toString());
         }
     }
 }
