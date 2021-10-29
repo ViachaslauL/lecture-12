@@ -28,6 +28,7 @@ public class StudentDAOImpl implements StudentDAO<Student, Parent> {
 
         try {
             connection = DSCreator.getDataSource().getConnection();
+            connection.setAutoCommit(false);
             stmt = connection.prepareStatement(StudentSQLRequests.INSERT);
 
             stmt.setString(1, student.getLastName());
@@ -55,6 +56,7 @@ public class StudentDAOImpl implements StudentDAO<Student, Parent> {
             stmt.setString(3, parent.getFirstName());
             stmt.setString(4, parent.getPatronymic());
             if (stmt.executeUpdate() > 0) {
+                connection.commit();
                 return true;
             }
         } catch (SQLException e) {
