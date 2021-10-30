@@ -66,8 +66,6 @@ public class StudentDAOImpl implements StudentDAO<Student, Parent> {
             DAOServant.closePrepareStatement(stmt);
             DAOServant.closeConnection(connection);
         }
-
-
         return false;
     }
 
