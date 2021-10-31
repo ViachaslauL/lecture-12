@@ -1,15 +1,18 @@
 package by.itacademy.javaenterprise.lepnikau.app.dao;
 
+import by.itacademy.javaenterprise.lepnikau.app.entity.Parent;
+import by.itacademy.javaenterprise.lepnikau.app.entity.Student;
+
 import java.util.List;
 
-public interface StudentDAO<S, P> {
+public interface StudentDAO {
 
-    boolean saveStudentAndParent(S student, P parent);
+    boolean saveStudentAndParent(Student student, Parent parent);
 
-    S save(S t);
+    Student save(Student t);
 
-    S get(int id);
+    Student get(int id);
 
-    List<S> getAllPageByPage(int limit, int offset);
+    List<Student> getAllPageByPage(int limit, int offset);
 
 }

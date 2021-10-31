@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParentDAOImpl implements ParentDAO<Parent> {
+public class ParentDAOImpl implements ParentDAO {
 
     private static final Logger log = LoggerFactory.getLogger(ParentDAOImpl.class.getSimpleName());
 

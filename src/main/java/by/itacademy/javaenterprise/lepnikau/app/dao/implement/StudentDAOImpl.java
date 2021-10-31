@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDAOImpl implements StudentDAO<Student, Parent> {
+public class StudentDAOImpl implements StudentDAO {
 
     private static final Logger log = LoggerFactory.getLogger(StudentDAOImpl.class.getSimpleName());
 
@@ -98,7 +98,6 @@ public class StudentDAOImpl implements StudentDAO<Student, Parent> {
     public Student get(int id) {
         Connection connection = null;
         PreparedStatement stmt = null;
-        Student student;
 
         try {
             connection = DSCreator.getDataSource().getConnection();
@@ -107,13 +106,7 @@ public class StudentDAOImpl implements StudentDAO<Student, Parent> {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                student = new Student();
-                student.setId(rs.getInt("id"));
-                student.setLastName(rs.getString("last_name"));
-                student.setFirstName(rs.getString("first_name"));
-                student.setPatronymic(rs.getString("patronymic"));
-                student.setClassId(rs.getInt("class_id"));
-                return student;
+                return getStudent(rs);
             }
         } catch (SQLException e) {
             log.error(e.toString());
@@ -138,13 +131,7 @@ public class StudentDAOImpl implements StudentDAO<Student, Parent> {
             stmt.setInt(1, limit);
             stmt.setInt(2, offset);
             while (rs.next()) {
-                Student student = new Student();
-                student.setId(rs.getInt("id"));
-                student.setLastName(rs.getString("last_name"));
-                student.setFirstName(rs.getString("first_name"));
-                student.setPatronymic(rs.getString("patronymic"));
-                student.setClassId(rs.getInt("class_id"));
-                students.add(student);
+                students.add(getStudent(rs));
             }
         } catch (SQLException e) {
             log.error(e.toString());
@@ -153,5 +140,15 @@ public class StudentDAOImpl implements StudentDAO<Student, Parent> {
             DAOServant.closeConnection(connection);
         }
         return students;
+    }
+
+    private Student getStudent(ResultSet rs) throws SQLException {
+        Student student = new Student();
+        student.setId(rs.getInt("id"));
+        student.setLastName(rs.getString("last_name"));
+        student.setFirstName(rs.getString("first_name"));
+        student.setPatronymic(rs.getString("patronymic"));
+        student.setClassId(rs.getInt("class_id"));
+        return student;
     }
 }

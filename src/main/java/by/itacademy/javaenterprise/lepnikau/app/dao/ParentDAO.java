@@ -1,13 +1,15 @@
 package by.itacademy.javaenterprise.lepnikau.app.dao;
 
+import by.itacademy.javaenterprise.lepnikau.app.entity.Parent;
+
 import java.util.List;
 
-public interface ParentDAO<P> {
+public interface ParentDAO {
 
-    P save(P t);
+    Parent save(Parent t);
 
-    P get(int id);
+    Parent get(int id);
 
-    List<P> getAllPageByPage(int limit, int offset);
+    List<Parent> getAllPageByPage(int limit, int offset);
 
 }

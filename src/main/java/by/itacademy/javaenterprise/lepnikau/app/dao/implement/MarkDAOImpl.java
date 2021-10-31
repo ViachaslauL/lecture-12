@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MarkDAOImpl implements MarkDAO<Mark> {
+public class MarkDAOImpl implements MarkDAO {
 
     private static final Logger log = LoggerFactory.getLogger(MarkDAOImpl.class.getSimpleName());
 
