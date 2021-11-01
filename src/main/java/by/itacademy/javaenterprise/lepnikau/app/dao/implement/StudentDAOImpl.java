@@ -4,12 +4,12 @@ import by.itacademy.javaenterprise.lepnikau.app.dao.StudentDAO;
 import by.itacademy.javaenterprise.lepnikau.app.dao.util.DAOServant;
 import by.itacademy.javaenterprise.lepnikau.app.entity.Parent;
 import by.itacademy.javaenterprise.lepnikau.app.entity.Student;
-import by.itacademy.javaenterprise.lepnikau.app.connection.DSCreator;
 import by.itacademy.javaenterprise.lepnikau.app.sql.ParentSQLRequests;
 import by.itacademy.javaenterprise.lepnikau.app.sql.StudentSQLRequests;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +20,7 @@ import java.util.List;
 public class StudentDAOImpl implements StudentDAO {
 
     private static final Logger log = LoggerFactory.getLogger(StudentDAOImpl.class.getSimpleName());
+    private DataSource dataSource;
 
     @Override
     public boolean saveStudentAndParent(Student student, Parent parent) {
@@ -27,7 +28,7 @@ public class StudentDAOImpl implements StudentDAO {
         PreparedStatement stmt = null;
 
         try {
-            connection = DSCreator.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             connection.setAutoCommit(false);
             stmt = connection.prepareStatement(StudentSQLRequests.INSERT);
 
@@ -75,7 +76,7 @@ public class StudentDAOImpl implements StudentDAO {
         PreparedStatement stmt = null;
 
         try {
-            connection = DSCreator.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             stmt = connection.prepareStatement(StudentSQLRequests.INSERT);
 
             stmt.setString(1, student.getLastName());
@@ -100,7 +101,7 @@ public class StudentDAOImpl implements StudentDAO {
         PreparedStatement stmt = null;
 
         try {
-            connection = DSCreator.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             stmt = connection.prepareStatement(StudentSQLRequests.SELECT_BY_ID);
 
             stmt.setInt(1, id);
@@ -124,7 +125,7 @@ public class StudentDAOImpl implements StudentDAO {
         PreparedStatement stmt = null;
 
         try {
-            connection = DSCreator.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             stmt = connection.prepareStatement(StudentSQLRequests.SELECT_ALL);
 
             ResultSet rs = stmt.executeQuery();
@@ -150,5 +151,9 @@ public class StudentDAOImpl implements StudentDAO {
         student.setPatronymic(rs.getString("patronymic"));
         student.setClassId(rs.getInt("class_id"));
         return student;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }

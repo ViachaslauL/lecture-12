@@ -3,30 +3,33 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:db.properties"/>
 
     <bean id="basicDataSource"
           class="org.apache.commons.dbcp2.BasicDataSource"
           destroy-method="close"
-          p:url="jdbc:mysql://localhost:3306/school_diary"
-          p:username="admin"
-          p:password="adminPass"
-          p:initialSize="5"
-          p:maxTotal="20"/>
-
-    <bean class="by.itacademy.javaenterprise.lepnikau.app.connection.DSCreator"
-          id="dsCreator">
-        <property name="basicDataSource" ref="basicDataSource"/>
-    </bean>
+          p:driverClassName="${DB.DRIVER_CLASS}"
+          p:url="${DB.DB_URL}"
+          p:username="${DB.DB_USER}"
+          p:password="${DB.DB_PASSWORD}"
+          p:initialSize="${DB.INITIAL_POOL_SIZE}"
+          p:maxTotal="${DB.MAX_POOL_SIZE}"/>
 
     <bean id="studentDAO"
-          class="by.itacademy.javaenterprise.lepnikau.app.dao.implement.StudentDAOImpl"/>
+          class="by.itacademy.javaenterprise.lepnikau.app.dao.implement.StudentDAOImpl">
+        <property name="dataSource" ref="basicDataSource"/>
+    </bean>
     <bean id="parentDAO"
-          class="by.itacademy.javaenterprise.lepnikau.app.dao.implement.ParentDAOImpl"/>
+          class="by.itacademy.javaenterprise.lepnikau.app.dao.implement.ParentDAOImpl">
+        <property name="dataSource" ref="basicDataSource"/>
+    </bean>
     <bean id="markDAO"
-          class="by.itacademy.javaenterprise.lepnikau.app.dao.implement.MarkDAOImpl"/>
-
-
-
+          class="by.itacademy.javaenterprise.lepnikau.app.dao.implement.MarkDAOImpl">
+        <property name="dataSource" ref="basicDataSource"/>
+    </bean>
 </beans>

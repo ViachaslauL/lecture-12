@@ -3,11 +3,11 @@ package by.itacademy.javaenterprise.lepnikau.app.dao.implement;
 import by.itacademy.javaenterprise.lepnikau.app.dao.MarkDAO;
 import by.itacademy.javaenterprise.lepnikau.app.dao.util.DAOServant;
 import by.itacademy.javaenterprise.lepnikau.app.entity.Mark;
-import by.itacademy.javaenterprise.lepnikau.app.connection.DSCreator;
 import by.itacademy.javaenterprise.lepnikau.app.sql.MarkSQLRequests;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +18,7 @@ import java.util.List;
 public class MarkDAOImpl implements MarkDAO {
 
     private static final Logger log = LoggerFactory.getLogger(MarkDAOImpl.class.getSimpleName());
+    private DataSource dataSource;
 
     @Override
     public Mark save(Mark mark) {
@@ -25,7 +26,7 @@ public class MarkDAOImpl implements MarkDAO {
         PreparedStatement stmt = null;
 
         try {
-            connection = DSCreator.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             stmt = connection.prepareStatement(MarkSQLRequests.INSERT);
 
             stmt.setInt(1, mark.getStudentId());
@@ -51,7 +52,7 @@ public class MarkDAOImpl implements MarkDAO {
         Mark mark;
 
         try {
-            connection = DSCreator.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             stmt = connection.prepareStatement(MarkSQLRequests.SELECT_BY_ID);
 
             stmt.setInt(1, id);
@@ -81,7 +82,7 @@ public class MarkDAOImpl implements MarkDAO {
         PreparedStatement stmt = null;
 
         try {
-            connection = DSCreator.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             stmt = connection.prepareStatement(MarkSQLRequests.SELECT_ALL);
 
             stmt.setInt(1, limit);
@@ -103,5 +104,9 @@ public class MarkDAOImpl implements MarkDAO {
             DAOServant.closeConnection(connection);
         }
         return marks;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }
